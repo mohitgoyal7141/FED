@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const htmlCode = `
+        <header>
+            <img src="Amazon_logo.svg.png" alt="Amazon Logo">
+          </header>
+          <div class="cart-container">
+            <div class="cart-items">
+              <div class="cart-item">
+                <img src="c2.jpg" alt="Item Image">
+                <div class="item-details">
+                  <h2>Cartoon T-Shirt</h2>
+                  <p>Price: $50.00</p>
+                  <input type="number" value="1">
+                  <button class="remove-btn">Remove</button>
+                </div>
+              </div>
+              <div class="cart-item">
+                <img src="c3.jpg" alt="Item Image">
+                <div class="item-details">
+                  <h2>Cartoon T-Shirt</h2>
+                  <p>Price: $60.00</p>
+                  <input type="number" value="1">
+                  <button class="remove-btn">Remove</button>
+                </div>
+              </div>
+              <div class="cart-item">
+                <img src="c8.jpg" alt="Item Image">
+                <div class="item-details">
+                  <h2>Cartoon T-Shirt</h2>
+                  <p>Price: $70.00</p>
+                  <input type="number" value="1">
+                  <button class="remove-btn">Remove</button>
+                </div>
+              </div>
+              <div class="cart-item">
+                <img src="c7.jpg" alt="Item Image">
+                <div class="item-details">
+                  <h2>Cartoon T-Shirt</h2>
+                  <p>Price: $80.00</p>
+                  <input type="number" value="1">
+                  <button class="remove-btn">Remove</button>
+                </div>
+              </div>
+            </div>
+            <div class="total">
+              <h3>Total: $250.00</h3>
+              <button class="checkout-btn">Checkout</button>
+              <button class="confirm-btn">Confirm</button>
+            </div>
+          </div>
+        `;
+    
+        const cssCode = `
+        
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+  }
+  
+  header {
+    background-color: #232f3e;
+    padding: 10px 0;
+    text-align: center;
+  }
+  
+  header img {
+    max-width: 200px;
+  }
+  
+  .cart-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cart-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .cart-item {
+    width: calc(20% - 20px);
+    padding: 20px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .cart-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-right: 20px;
+  }
+  
+  .item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  
+  .item-details h2 {
+    font-size: 18px;
+    margin: 0 0 10px;
+  }
+  
+  .item-details p {
+    margin: 0 0 5px;
+    color: #888;
+  }
+  
+  input[type="number"] {
+    width: 40px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .remove-btn {
+    background-color: #ff9900;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .total {
+    text-align: right;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .checkout-btn {
+    background-color: #ff9900;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .add-more-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #f0c14b;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .confirm-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #ff9900;
+    border: 1px solid;
+    border-color: #ff9900 #ff9900 #ff9900;
+    color: #ffffff;
+  }
+  .confirm-btn:hover {
+    background-color: #ff9900;
+  }
+  .confirm-btn:active {
+    background-color: #ff9900;
+  }
+        `;
+    
+        const scriptCode = `
+document.addEventListener('DOMContentLoaded', function() {
+  const removeButtons = document.querySelectorAll('.remove-btn');
+  removeButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      button.parentElement.parentElement.remove();
+      updateTotal();
+    });
+  });
+ 
+  const confirmButton = document.querySelector('.confirm-btn');
+  confirmButton.addEventListener('click', () => {
+    updateTotal();
+  });
+ 
+  const checkoutButton = document.querySelector('.checkout-btn');
+  checkoutButton.addEventListener('click', () => {
+    const cartItems = document.querySelectorAll('.cart-item');
+    cartItems.forEach(item => item.remove());
+    alert('Ordered successfully');
+  });
+ 
+  updateTotal();
+});
+ 
+function updateTotal() {
+  const prices = Array.from(document.querySelectorAll('.item-details p'))
+    .map(p => parseFloat(p.textContent.replace('Price: $', '')));
+  const quantities = Array.from(document.querySelectorAll('input[type="number"]'))
+    .map(input => parseFloat(input.value));
+  const total = prices.reduce((acc, price, index) => acc + price * quantities[index], 0);
+  document.querySelector('.total h3').textContent = \`Total: $\${total.toFixed(2)}\`;
+}
+`;
+    
+        const head = document.head || document.getElementsByTagName('head')[0];
+        const style = document.createElement('style');
+        style.appendChild(document.createTextNode(cssCode));
+        head.appendChild(style);
+    
+        document.body.innerHTML = '<div class="container">' + htmlCode + '</div>';
+        const script = document.createElement('script');
+        script.appendChild(document.createTextNode(scriptCode));
+        document.body.appendChild(script);
+    </script>
+</body>
+</html>
