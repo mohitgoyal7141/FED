@@ -5,24 +5,19 @@ searchBTN  = document.querySelector('.search')
 inpTAG  = document.querySelector('.inpSearch')
 row28  = document.querySelector('.row28')
 let loadCOuntImage = 1
-function generateGifHTML(result){
-    loadCOuntImage = 1
+function generateGifHTML(result){ 
+     loadCOuntImage = 1
     document.querySelector('.row28').innerHTML = ''
-result.data.forEach(function(onebyone) {
+ result.data.forEach(function(onebyone) {
     loadCOuntImage++
     html = '';
     html += `
     <div class=" col28">
                 <img src="${onebyone.images.original.url}" width='250' height='190'>
                  <a href="${onebyone.images.original.url}" class="" download>Download  - <small> ${((onebyone.images.original.size/8)/(1024 * 1024)).toFixed(2)}MB (Size)</small>   </a>
-            </div>
+            </div> 
             `
-            url = `http://api.giphy.com/v1/gifs/search?q=${inpTAG.value}&api_key=${YOUR_API_KEY}&limit=12`
-            fetch then(function(response) {
-                return response.json();
-            }).then(function(data) {
-                fetchedData = data;
-                showLoader()
+   
     row28.innerHTML += html;
     if(loadCOuntImage === 12){
         console.log(loadCOuntImage)
@@ -30,25 +25,26 @@ result.data.forEach(function(onebyone) {
     }
 });
 
-allImages = document.querySelectorAll('.row28 img')
+ allImages = document.querySelectorAll('.row28 img')
 
-    
+      
 }
 
 
 searchBTN.addEventListener('click',function(){
-url = `http://api.giphy.com/v1/gifs/search?q=${inpTAG.value}&api_key=${YOUR_API_KEY}&limit=12`
+     url = `http://api.giphy.com/v1/gifs/search?q=${inpTAG.value}&api_key=${YOUR_API_KEY}&limit=12`
     fetch(url).then(function(response) {
         return response.json();
     }).then(function(data) {
-        fetchedData = data;
+        fetchedData = data;   
         showLoader()
         setTimeout(() => {
-            generateGifHTML(fetchedData)
+            generateGifHTML(fetchedData)  
         }, 3000);
-
-        return data;
+      
+        return data;  
     }).catch(function(error) {
+        // console.log('Error:', error);
     });
 })
 
